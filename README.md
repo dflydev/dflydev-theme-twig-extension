@@ -48,11 +48,12 @@ functionality will fail.
 
    ```php
    <?php
-   $app->get('/_theme_typed/{type}/{name}/{resource}', function($app, $type, $name, $resource) {
+   $app->get('/_theme_typed/{type}/{name}/public/{resource}', function($app, $type, $name, $resource) {
        // do something to handle the theme request and return the
        // contents of the theme resource manually.
    })
-   ->assert('resource', '/.+/')
+   ->assert('name', '.+')
+   ->assert('resource', '.+')
    ->bind('_dflydev_typed_theme_handler');
    ```
  * **_dflydev_theme_handler**:
@@ -63,11 +64,12 @@ functionality will fail.
 
    ```php
    <?php
-   $app->get('/_theme/{name}/{resource}', function($app, $name, $resource) {
+   $app->get('/_theme/{name}/public/{resource}', function($app, $name, $resource) {
        // do something to handle the theme request and return the
        // contents of the theme resource manually.
    })
-   ->assert('resource', '/.+/')
+   ->assert('name', '.+')
+   ->assert('resource', '.+')
    ->bind('_dflydev_theme_handler');
    ```
 
