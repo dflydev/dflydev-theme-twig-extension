@@ -13,13 +13,27 @@ Through [Composer][00] as [dflydev/theme-twig-extension][01].
 Usage
 -----
 
+The following examples use the Symfony Routing implementation of
+`ResourceUrlGeneratorInterface`.
+
 ```php
+<?php
+use Dflydev\Theme\ResourceUrlGenerator\SymfonyRoutingResourceUrlGenerator;
 use Dflydev\Twig\Extension\Theme\ThemeTwigExtension;
-$themeTwigExtension = new ThemeTwigExtension(
+
+// Assumes $themeProvider, $pathMapper, $urlGenerator, and $twig
+// are already created and ready to be used.
+
+$resourceUrlGenerator = new SymfonyRoutingResourceUrlGenerator(
     $themeProvider,
     $pathMapper,
     $urlGenerator
 );
+
+$themeTwigExtension = new ThemeTwigExtension(
+    $resourceUrlGenerator
+);
+
 $twig->addExtension($themeTwigExtension);
 ```
 
@@ -35,10 +49,15 @@ If `css/main.css` is *not* accessible directly, the `UrlGeneratorInterface`
 implementation will be used to generate a URL to the embedded Theme
 controllers.
 
-### Controller Requirements
+All implementations of `ResourceUrlGeneratorInterface` should follow the
+pattern of:
 
-The following named controllers are required to be defined or the fallback
-functionality will fail.
+ 1. Checking to see if the resource is available publicly and
+    using that if available.
+ 2. Generating a fallback URL to expose non-public resources.
+
+
+### Controller Requirements Example (Silex + Symfony Routing)
 
  * **_dflydev_typed_theme_handler**:
    Expects three params, `type`, `name`, and the `resource`. Name can be
@@ -48,7 +67,7 @@ functionality will fail.
 
    ```php
    <?php
-   $app->get('/_theme_typed/{type}/{name}/public/{resource}', function($type, $name, $resource) use ($app)  {
+   $app->get('/_theme_typed/{type}/{name}/resources/{resource}', function($type, $name, $resource) use ($app)  {
        // do something to handle the theme request and return the
        // contents of the theme resource manually.
    })
@@ -64,7 +83,7 @@ functionality will fail.
 
    ```php
    <?php
-   $app->get('/_theme/{name}/public/{resource}', function($name, $resource) use ($app) {
+   $app->get('/_theme/{name}/resources/{resource}', function($name, $resource) use ($app) {
        // do something to handle the theme request and return the
        // contents of the theme resource manually.
    })
