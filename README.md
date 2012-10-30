@@ -48,7 +48,7 @@ functionality will fail.
 
    ```php
    <?php
-   $app->get('/_theme_typed/{type}/{name}/public/{resource}', function($app, $type, $name, $resource) {
+   $app->get('/_theme_typed/{type}/{name}/public/{resource}', function($type, $name, $resource) use ($app)  {
        // do something to handle the theme request and return the
        // contents of the theme resource manually.
    })
@@ -64,7 +64,7 @@ functionality will fail.
 
    ```php
    <?php
-   $app->get('/_theme/{name}/public/{resource}', function($app, $name, $resource) {
+   $app->get('/_theme/{name}/public/{resource}', function($name, $resource) use ($app) {
        // do something to handle the theme request and return the
        // contents of the theme resource manually.
    })
