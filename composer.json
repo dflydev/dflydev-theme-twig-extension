@@ -18,7 +18,7 @@
     "require": {
         "php": ">=5.3.3",
         "dflydev/theme": "1.*@dev",
-        "twig/twig": "~1.9.1"
+        "twig/twig": "~1.9"
     },
     "autoload": {
         "psr-0": {
